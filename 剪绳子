@@ -1,0 +1,26 @@
+/*
+动态规划，f(n)=max(f(i)*f(n-i))，当绳子长度为3时，最好的方法只能是剪为1和2，绳子长度为2，只能剪为1,1
+f(4)=f(2)*f(2)=4     f(4)=f(1)*f(3)=3
+f(5)=f(1)*f(4)=4     f(5)=f(2)*f(3)=6
+f(6)=f(1)*f(5)=6     f(6)=f(2)*f(4)=8     f(6)=f(3)*f(3)=9
+可推导出f(n)=max{f(i)*f(n-i)};
+*/
+class Solution {
+public:
+    int cutRope(int number) {
+        if (number < 2) return 0;
+        if (number == 2) return 1;
+        if (number == 3) return 2;
+        vector<int> products{0, 1, 2, 3};
+    	for(int i = 4; i <= number; ++i){
+        	int max = 0;
+        	for(int j = 1; j <= i/2; ++j){
+            	int product = products[j] * products[i - j];
+            	if(max < product)
+                	max = product;
+        	}
+        	products.push_back(max);
+        }
+        return products[number];    
+    }
+};
