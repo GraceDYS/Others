@@ -1,0 +1,47 @@
+#include<iostream>
+#include<vector>
+using namespace std; 
+//从数组的最尾部向前一次插入，将比较大的元素放进num1的末尾
+//最后如果num2有剩余在把num2省的属继续插入，num1有剩余不用管，已经完成了。
+class Solution {
+public:
+	void merge(vector<int>& nums1, int m, vector<int>& nums2, int n) {
+        int i = m - 1, j = n - 1, k = m + n - 1;
+        while (i >= 0 && j >= 0) {
+            if (nums1[i] >= nums2[j]) {
+                nums1[k] = nums1[i];
+                k--;
+                i--;  	             
+            }
+            else {
+                nums1[k] = nums2[j];
+                k--;
+                j--;
+                
+            }
+        }
+        while (j >= 0) {
+            nums1[k] = nums2[j];
+            k--;
+            j--;
+        }
+                 
+	}
+};
+int main(){
+	int a1[100]={1,2,3,4,10};
+	int a2[10]={3,5,7};
+	vector<int> nums1;
+	vector<int> nums2;
+	for(int i=0;i<5;i++){
+		nums1.push_back(a1[i]);
+	}
+	for(int i=0;i<3;i++){
+		nums2.push_back(a2[i]);
+	}
+	Solution s;
+	s.merge(nums1,5,nums2,3);
+	for(int i=0;i<8;i++){
+		cout<<nums1[i]<<' ';
+	}
+}
