@@ -1,0 +1,66 @@
+/*
+逐个字符进行判断
+1）当pattern下一个字符不是 * 时，str与pattern相等，或者pattern是万能符号'.'，并且str不是串结束符时，两边字符都后移一位，进行下一步判断。
+2）当pattern下一个字符是 * 时，若str=='\0'，直接返回match(str,pattern+2)；
+   若str!='\0'，如果pattern==str 或者 pattern=='.' 时，返回match(str+1,pattern)或者pattern(str,pattern+2)
+举例: str=a，pattern=a*，返回match(str+1,pattern)
+      str=a，pattern=a*a，返回match(str,pattern+2)
+      str=a，pattern=.*，返回match(str+1，pattern）
+      str=a，pattern=.*a或pattern=.*b或pattern=.*.  ，返回match(str,pattern+2)
+*/
+class Solution {
+public:
+    bool match(char* str, char* pattern)
+    {
+        if('\0'==*pattern)
+        {
+            if('\0'==*str)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        else
+        {
+            if(*(pattern+1)!='*')
+            {
+                if(*str==*pattern)
+                {
+                    return match(str+1,pattern+1);
+                }
+                else
+                {
+                    if(*pattern=='.' && *str!='\0')
+                    {
+                        return match(str+1,pattern+1);
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+            }
+            else
+            {
+                if('\0'==*str)
+                {
+                    return match(str,pattern+2);
+                }
+                else
+                {
+                    if(*str==*pattern || *pattern=='.')
+                    {
+                        return match(str+1,pattern) || match(str,pattern+2);
+                    }
+                    else
+                    {
+                        return match(str,pattern+2); 
+                    }
+                }
+            }
+        }
+    }
+};
